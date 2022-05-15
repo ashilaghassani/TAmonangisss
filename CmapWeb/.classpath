@@ -6,5 +6,10 @@
 	<classpathentry kind="var" path="GIT_BASE/cmapweb/CmapWeb/war/WEB-INF/lib/gwt-graphics-0.9.7.jar"/>
 	<classpathentry kind="var" path="GIT_BASE/cmapweb/CmapWeb/war/WEB-INF/lib/gwttheme.jar"/>
 	<classpathentry kind="var" path="GIT_BASE/cmapweb/CmapWeb/war/WEB-INF/lib/gwt-dnd-3.3.0.jar"/>
+	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dnd-3.3.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-graphics-0.9.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwttheme.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

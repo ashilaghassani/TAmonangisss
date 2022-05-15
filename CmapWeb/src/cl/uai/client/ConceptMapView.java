@@ -348,7 +348,9 @@ public class ConceptMapView extends Composite {
 					final ConceptLabel lbl = (ConceptLabel) event.getSource();
 					final Concept target = getConceptFromLabel(lbl);
 					if(isInAddRelationshipMode() && addRelationshipSourceConcept != null
-							&& !addRelationshipSourceConcept.equals(target)) {
+							&& !addRelationshipSourceConcept.equals(target)
+						) 
+						{
 						AddRelationshipDialogBox dbox = new AddRelationshipDialogBox();
 						dbox.addCloseHandler(new CloseHandler<PopupPanel>() {							
 							public void onClose(CloseEvent<PopupPanel> event) {
@@ -466,6 +468,7 @@ public class ConceptMapView extends Composite {
 			cmap.moveRelationship(r.getId(), rel.getPosx(), rel.getPosy());
 			boundaryPanel.setWidgetPosition(lblRel, rel.getPosx(), rel.getPosy());
 			lblRel.drawAllLines();
+			// lblRel.setDrawLine();
 		}		
 	}
 
@@ -778,6 +781,8 @@ public class ConceptMapView extends Composite {
 		adjustSisterRelationships(r);
 
 		lbl.drawAllLines();
+
+
 	}
 
 	@Override

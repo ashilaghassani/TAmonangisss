@@ -22,6 +22,11 @@
 */
 package cl.uai.client;
 
+
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+
 import org.vaadin.gwtgraphics.client.Line;
 import org.vaadin.gwtgraphics.client.shape.Path;
 import org.vaadin.gwtgraphics.client.shape.path.LineTo;
@@ -46,7 +51,26 @@ public class RelationshipLabel extends ConceptLabel {
 	private Path tgtArrow = null;
 	// The concept map view to which the label belongs
 	private ConceptMapView cmapview = null;
+	
+//	private static boolean readonly = false;
+//	private static RelationshipLabel selectedLabel = null;
+//
+//	public static RelationshipLabel getSelectedLabel() {
+//		return selectedLabel;
+//	}
+//	
+//	private static AbsolutePanel absolutePanel = null;
+//	
+//	public static void setAbsolutePanel(AbsolutePanel panel) {
+//		absolutePanel = panel;
+//	}
+//	
+//	
+//	public static void setReadonly(boolean readOnly) {
+//		readonly = readOnly;
+//	}
 
+	
 	/**
 	 * @param label
 	 */
@@ -82,6 +106,14 @@ public class RelationshipLabel extends ConceptLabel {
 	public Path getTgtArrow() {
 		return tgtArrow;
 	}
+
+	// public void setDrawLine(){
+	// 	srcLine.setX1(0);
+	// 	srcLine.setY1(0);
+	// 	srcLine.setX2(0);
+	// 	srcLine.setY2(0);
+
+	// }
 
 
 	/**
@@ -156,7 +188,7 @@ public class RelationshipLabel extends ConceptLabel {
 		srcLine.setX2(cx2);
 		srcLine.setY2(cy2);
 		
-		// Draw line from relationship to target concept
+		// // Draw line from relationship to target concept
 		tgtLine.setX1(cx2);
 		tgtLine.setY1(cy2);
 		tgtLine.setX2(arrowx);
@@ -173,5 +205,6 @@ public class RelationshipLabel extends ConceptLabel {
 	protected void onLoad() {
 		super.onLoad();
 		drawAllLines();
+		// setDrawLine();
 	}
 }

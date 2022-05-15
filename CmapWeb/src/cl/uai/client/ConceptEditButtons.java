@@ -78,9 +78,13 @@ public class ConceptEditButtons extends HorizontalPanel {
 	
 	public void setConceptLabel(ConceptLabel lbl) {
 		if(lbl instanceof RelationshipLabel) {
-			btnLink.setVisible(false);
-		} else {
 			btnLink.setVisible(true);
+			btnDelete.setVisible(true);
+			btnEdit.setVisible(false);
+		} else {
+		btnLink.setVisible(true);
+		btnEdit.setVisible(false);
+		btnDelete.setVisible(false);
 		}
 	}
 }
