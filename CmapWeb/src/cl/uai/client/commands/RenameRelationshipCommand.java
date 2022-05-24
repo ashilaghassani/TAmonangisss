@@ -61,6 +61,24 @@ public class RenameRelationshipCommand extends AbstractConceptMapCommand {
 		this.cmapview.renameRelationship(id, this.linkingWord);
 	}
 
+
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Relationship r = this.cmapview.getCmap().getRelationship(id);
+		this.oldLinkingWord = r.getLinkingWord();
+		this.cmapview.renameRelationship(id, this.linkingWord);
+	}
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Relationship r = this.cmapview.getCmap().getRelationship(id);
+		this.oldLinkingWord = r.getLinkingWord();
+		this.cmapview.renameRelationship(id, this.linkingWord);
+	}
+
+	
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

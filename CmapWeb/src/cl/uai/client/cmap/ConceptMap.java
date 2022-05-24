@@ -248,7 +248,7 @@ public class ConceptMap {
 	public List<Relationship> incomingRelationships(Concept concept) {
 		List<Relationship> output = new ArrayList<Relationship>();
 		for(Relationship rel : this.relationships.values()) {
-			if(rel.getTarget().equals(concept))
+			// if(rel.getTarget().equals(concept))
 				output.add(rel);
 		}
 		return output;
@@ -287,8 +287,8 @@ public class ConceptMap {
 	 * @return
 	 */
 	public Relationship insertRelationship(int id, Concept source, Concept target, String linkingWord, Relationship.Drawing drawingType, int posx, int posy) {		
-		if(source == null || target == null)
-			return null;
+		// if(source == null || target == null)
+		// 	return null;
 		Relationship r = new Relationship(id);
 		r.setSource(source);
 		r.setTarget(target);
@@ -297,16 +297,37 @@ public class ConceptMap {
 		r.setPosy(posy);
 
 		// Checking consistency, that both concepts are in the CM.
-		if(this.containsConcept(source) && this.containsConcept(target)) {
+		// if(this.containsConcept(source) && this.containsConcept(target)) {
 			relationships.put(r.getId(),r);
 			if(this.relationshipIdSequence <= id)
 				this.relationshipIdSequence = id + 1;
 			return r;
-		} else {
-			logger.severe("Trying to add a relationship with no concepts in the map." //$NON-NLS-1$
-					+ r);
-		}
-		return null;
+		// } else {
+		// 	logger.severe("Trying to add a relationship with no concepts in the map." //$NON-NLS-1$
+		// 			+ r);
+		// }
+		// return null;
+	}
+
+
+	public Relationship insertRelationship2(int id, Relationship source, Concept target, String linkingWord, Relationship.Drawing drawingType, int posx, int posy) {		
+
+		Relationship r = this.relationships.get(id);
+		r.setSource(target);
+		r.setLinkingWord(linkingWord);
+		r.setPosx(posx);
+		r.setPosy(posy);
+		return r;
+	}
+
+	public Relationship insertRelationship3(int id, Relationship source, Concept target, String linkingWord, Relationship.Drawing drawingType, int posx, int posy) {		
+
+		Relationship r = this.relationships.get(id);
+		r.setTarget(target);
+		r.setLinkingWord(linkingWord);
+		r.setPosx(posx);
+		r.setPosy(posy);
+		return r;
 	}
 
 	/**
@@ -354,7 +375,7 @@ public class ConceptMap {
 	public List<Relationship> outgoingRelationships(Concept concept) {
 		List<Relationship> output = new ArrayList<Relationship>();
 		for(Relationship rel : this.relationships.values()) {
-			if(rel.getSource().equals(concept))
+			// if(rel.getSource().equals(concept))
 				output.add(rel);
 		}
 		return output;
@@ -423,16 +444,16 @@ public class ConceptMap {
 				logger.fine("Found relationship:" + linkingWord);
 				int posx = -1;
 				int posy = -1;
-				try {
+				// try {
 					posx = (int) Float.parseFloat(((Element) relationshipNode).getAttribute("posx").replace(",", ".")); //$NON-NLS-1$
 					posy = (int) Float.parseFloat(((Element) relationshipNode).getAttribute("posy").replace(",", ".")); //$NON-NLS-1$
-				} catch (Exception e) {
-					// XML comes with no position
-					Concept source = this.getConcept(srcId);
-					Concept target = this.getConcept(tgtId);
-					posx = source.getPosx() + (int) (((double)target.getPosx() - (double)source.getPosx())/2);
-					posy = source.getPosy() + (int) (((double)target.getPosy() - (double)source.getPosy())/2);
-				}
+				// } catch (Exception e) {
+				// 	// XML comes with no position
+				// 	Concept source = this.getConcept(srcId);
+				// 	Concept target = this.getConcept(tgtId);
+				// 	posx = source.getPosx() + (int) (((double)target.getPosx() - (double)source.getPosx())/2);
+				// 	posy = source.getPosy() + (int) (((double)target.getPosy() - (double)source.getPosy())/2);
+				// }
 
 				Concept source = this.concepts.get(srcId);
 				Concept target = this.concepts.get(tgtId);
@@ -460,17 +481,18 @@ public class ConceptMap {
 	 * @param relationship the relationship to check for sisters
 	 * @return a list of relationships
 	 */
-	public List<Relationship> sisterRelationships(Relationship relationship) {
-		logger.fine("Analyzing " + relationship);
-		List<Relationship> output = new ArrayList<Relationship>();
-		for(Relationship rel : outgoingRelationships(relationship.getSource())) {
-			// Exclude the relationship in the parameter and check for identical linking word
-			if(!rel.getTarget().equals(relationship.getTarget()) 
-					&& rel.getLinkingWord().equals(relationship.getLinkingWord())) {
-				logger.fine("Found " + rel);
-				output.add(rel);
-			}
-		}
-		return output;
-	}
+	// public List<Relationship> sisterRelationships(Relationship relationship) {
+	// 	logger.fine("Analyzing " + relationship);
+	// 	List<Relationship> output = new ArrayList<Relationship>();
+	// 	for(Relationship rel : outgoingRelationships(relationship.getSource())) {
+	// 		// Exclude the relationship in the parameter and check for identical linking word
+	// 		// if(!rel.getTarget().equals(relationship.getTarget()) 
+	// 		// 		&& 
+	// 		if(rel.getLinkingWord().equals(relationship.getLinkingWord())) {
+	// 			logger.fine("Found " + rel);
+	// 			output.add(rel);
+	// 		}
+	// 	}
+	// 	return output;
+	// }
 }

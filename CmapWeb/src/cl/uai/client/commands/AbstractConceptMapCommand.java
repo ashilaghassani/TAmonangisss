@@ -87,6 +87,9 @@ public abstract class AbstractConceptMapCommand {
 	 * @param cview interface for execution
 	 */
 	public abstract void execute(ConceptMapView cview);
+
+	public abstract void execute2(ConceptMapView cview);
+	public abstract void execute3(ConceptMapView cview);
 	
 	/**
 	 * Undo the command

@@ -52,30 +52,58 @@ public class RelationshipLabel extends ConceptLabel {
 	// The concept map view to which the label belongs
 	private ConceptMapView cmapview = null;
 	
-//	private static boolean readonly = false;
-//	private static RelationshipLabel selectedLabel = null;
-//
-//	public static RelationshipLabel getSelectedLabel() {
-//		return selectedLabel;
-//	}
-//	
-//	private static AbsolutePanel absolutePanel = null;
-//	
-//	public static void setAbsolutePanel(AbsolutePanel panel) {
-//		absolutePanel = panel;
-//	}
-//	
-//	
-//	public static void setReadonly(boolean readOnly) {
-//		readonly = readOnly;
-//	}
+	private static AbsolutePanel absolutePanel = null;
+	
+	private static boolean readonly = false;
+	private static RelationshipLabel selectedLabel = null;
+
+
+	private String label = null;
+
+
+	private static String htmlPrefix = "<table class=cmapLabelTable><tr><td class=cmCornerTopLeft></td><td class=cmTopCenter></td><td class=cmCornerTopRight></td></tr><tr><td class=cmLeft></td><td class=cmCenter>";
+	private static String htmlSuffix = "</td><td class=cmRight></td></tr><tr><td class=cmCornerBottomLeft></td><td class=cmBottomCenter></td><td class=cmCornerBottomRight></td></tr></table>";
+	
+
+
+	public static void setAbsolutePanel(AbsolutePanel panel) {
+		absolutePanel = panel;
+	}
+	
+	
+	public static void setReadonly(boolean readOnly) {
+		readonly = readOnly;
+	}
+
+
 
 	
 	/**
 	 * @param label
 	 */
 	public RelationshipLabel(ConceptMapView cview, Relationship rel) {
-		super(rel.getLinkingWord());
+		// super(rel.getLinkingWord());
+		super(htmlPrefix + rel.getLinkingWord() + htmlSuffix);
+
+		this.setLabel(rel.getLinkingWord());
+		// Mouse over to show the edit label on top of the concept
+		this.addMouseOverHandler(new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent event) {
+				selectedLabel = (RelationshipLabel) event.getSource();
+
+				if(absolutePanel!=null && !readonly) {
+					ConceptMapView.getConceptEditButtons().setConceptLabel(selectedLabel);
+					int x = getX() + getOffsetWidth() - ConceptMapView.getConceptEditButtons().getOffsetWidth();
+					int y = getY() - ConceptMapView.getConceptEditButtons().getOffsetHeight();
+					if(absolutePanel.getWidgetIndex(ConceptMapView.getConceptEditButtons())<0) {
+						absolutePanel.add(ConceptMapView.getConceptEditButtons(), x, y);
+					} else {
+						absolutePanel.setWidgetPosition(ConceptMapView.getConceptEditButtons(), x, y);
+					}
+				}
+			}
+		});
+		
 		this.relationship = rel;
 		this.cmapview = cview;
 		
@@ -107,13 +135,12 @@ public class RelationshipLabel extends ConceptLabel {
 		return tgtArrow;
 	}
 
-	// public void setDrawLine(){
-	// 	srcLine.setX1(0);
-	// 	srcLine.setY1(0);
-	// 	srcLine.setX2(0);
-	// 	srcLine.setY2(0);
 
-	// }
+	public static RelationshipLabel getSelectedLabel() {
+		return selectedLabel;
+	}
+
+
 
 
 	/**
@@ -122,6 +149,9 @@ public class RelationshipLabel extends ConceptLabel {
 	 */
 	public void drawAllLines() {
 		// Coordinates for label 1 corner and size (w,h)
+		if(this.relationship.getSource()== null || this.relationship.getTarget()==null){
+			return;
+		}else{
 		int x1 = this.relationship.getSource().getPosx();
 		int y1 = this.relationship.getSource().getPosy();
 		int w1 = this.cmapview.getConceptLabels().get(this.relationship.getSource().getId()).getOffsetWidth();
@@ -188,7 +218,7 @@ public class RelationshipLabel extends ConceptLabel {
 		srcLine.setX2(cx2);
 		srcLine.setY2(cy2);
 		
-		// // Draw line from relationship to target concept
+		// Draw line from relationship to target concept
 		tgtLine.setX1(cx2);
 		tgtLine.setY1(cy2);
 		tgtLine.setX2(arrowx);
@@ -199,12 +229,12 @@ public class RelationshipLabel extends ConceptLabel {
 		tgtArrow.setY(arrowy);
 		tgtArrow.setStep(1,new LineTo(false, topx, topy));
 		tgtArrow.setStep(2,new LineTo(false, botx, boty));
+		}
 	}
 	
 	@Override
 	protected void onLoad() {
 		super.onLoad();
 		drawAllLines();
-		// setDrawLine();
 	}
 }

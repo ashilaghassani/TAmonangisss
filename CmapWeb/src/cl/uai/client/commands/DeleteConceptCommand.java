@@ -68,6 +68,24 @@ public class DeleteConceptCommand extends AbstractConceptMapCommand {
 		this.cmapview.deleteConceptAndLabel(this.id);
 	}
 
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.incomingRelationships.addAll(this.cmapview.getCmap().incomingRelationships(c));
+		this.outgoingRelationships.addAll(this.cmapview.getCmap().outgoingRelationships(c));
+		this.cmapview.deleteConceptAndLabel(this.id);
+	}
+
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.incomingRelationships.addAll(this.cmapview.getCmap().incomingRelationships(c));
+		this.outgoingRelationships.addAll(this.cmapview.getCmap().outgoingRelationships(c));
+		this.cmapview.deleteConceptAndLabel(this.id);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

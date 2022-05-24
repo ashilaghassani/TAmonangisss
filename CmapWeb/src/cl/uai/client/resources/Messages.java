@@ -29,6 +29,8 @@ public interface Messages extends ConstantsWithLookup {
 	public String AddConcept();
 	public String AddRelationship();
 	public String AddingRelationship();
+	public String AddSource();
+	public String AddTarget();
 	public String Cancel();
 	public String Change();
 	public String ChangesWillBeLost();

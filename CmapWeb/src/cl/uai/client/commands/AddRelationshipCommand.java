@@ -73,6 +73,30 @@ public class AddRelationshipCommand extends AbstractConceptMapCommand {
 			r = this.cmapview.insertRelationshipAndLabel(id, c, c2, linkingWord, Drawing.LINE, posx, posy);
 	}
 
+
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		// Concept c = this.cmapview.getCmap().getConcept(sourceId);
+		Concept c2 = this.cmapview.getCmap().getConcept(targetId);
+		Relationship rs = this.cmapview.getCmap().getRelationship(sourceId);
+		Relationship r = null;
+		this.id = rs.getId();
+		r = this.cmapview.insertRelationshipAndLabel2(id, rs, c2, linkingWord, Drawing.LINE, posx, posy);
+	}
+
+
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		// Concept c = this.cmapview.getCmap().getConcept(sourceId);
+		Concept c2 = this.cmapview.getCmap().getConcept(targetId);
+		Relationship rs = this.cmapview.getCmap().getRelationship(sourceId);
+		Relationship r = null;
+		this.id = rs.getId();
+		r = this.cmapview.insertRelationshipAndLabel3(id, rs, c2, linkingWord, Drawing.LINE, posx, posy);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

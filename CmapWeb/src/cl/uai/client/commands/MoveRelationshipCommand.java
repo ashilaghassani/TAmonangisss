@@ -63,6 +63,24 @@ public class MoveRelationshipCommand extends AbstractConceptMapCommand {
 		this.cmapview.moveRelationship(id, posx, posy);
 	}
 
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Relationship rel = this.cmapview.getCmap().getRelationship(id);
+		this.oldPosX = rel.getPosx();
+		this.oldPosY = rel.getPosy();
+		this.cmapview.moveRelationship(id, posx, posy);
+	}
+
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Relationship rel = this.cmapview.getCmap().getRelationship(id);
+		this.oldPosX = rel.getPosx();
+		this.oldPosY = rel.getPosy();
+		this.cmapview.moveRelationship(id, posx, posy);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

@@ -66,6 +66,31 @@ public class AddConceptCommand extends AbstractConceptMapCommand {
 			c = this.cmapview.insertConceptAndLabel(id, label, posx, posy);
 	}
 
+
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = null;
+		if(this.id < 0) {
+			c = this.cmapview.addConceptAndLabel(label, posx, posy);
+			this.id = c.getId();
+		}
+		else
+			c = this.cmapview.insertConceptAndLabel(id, label, posx, posy);
+	}
+
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = null;
+		if(this.id < 0) {
+			c = this.cmapview.addConceptAndLabel(label, posx, posy);
+			this.id = c.getId();
+		}
+		else
+			c = this.cmapview.insertConceptAndLabel(id, label, posx, posy);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

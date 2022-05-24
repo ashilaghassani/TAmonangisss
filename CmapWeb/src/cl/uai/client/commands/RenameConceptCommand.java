@@ -60,6 +60,22 @@ public class RenameConceptCommand extends AbstractConceptMapCommand {
 		this.cmapview.renameConcept(id, this.label);
 	}
 
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.oldLabel = c.getLabel();
+		this.cmapview.renameConcept(id, this.label);
+	}
+
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.oldLabel = c.getLabel();
+		this.cmapview.renameConcept(id, this.label);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

@@ -62,6 +62,23 @@ public class MoveConceptCommand extends AbstractConceptMapCommand {
 		this.cmapview.moveConcept(id, posx, posy);
 	}
 
+	@Override
+	public void execute2(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.oldPosX = c.getPosx();
+		this.oldPosY = c.getPosy();
+		this.cmapview.moveConcept(id, posx, posy);
+	}
+	@Override
+	public void execute3(ConceptMapView cview) {
+		this.cmapview = cview;
+		Concept c = this.cmapview.getCmap().getConcept(id);
+		this.oldPosX = c.getPosx();
+		this.oldPosY = c.getPosy();
+		this.cmapview.moveConcept(id, posx, posy);
+	}
+
 	/* (non-Javadoc)
 	 * @see cl.uai.client.ConceptMapCommand#undo()
 	 */

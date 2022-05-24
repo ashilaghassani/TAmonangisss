@@ -42,6 +42,8 @@ public class ConceptEditButtons extends HorizontalPanel {
 	private PushButton btnEdit;
 	private PushButton btnDelete;
 	private PushButton btnLink;
+	private PushButton btnSource;
+	private PushButton btnTarget;
 	
 	/**
 	 * 
@@ -50,18 +52,26 @@ public class ConceptEditButtons extends HorizontalPanel {
 		this.btnDelete = new PushButton(new Image(Resources.INSTANCE.delete()));
 		this.btnEdit = new PushButton(new Image(Resources.INSTANCE.edit()));
 		this.btnLink = new PushButton(new Image(Resources.INSTANCE.newrelationship()));
+		this.btnSource = new PushButton(new Image(Resources.INSTANCE.addSource()));
+		this.btnTarget = new PushButton(new Image(Resources.INSTANCE.addTarget()));
 		
 		this.btnDelete.setTitle(messages.Delete());
 		this.btnEdit.setTitle(messages.Edit());
 		this.btnLink.setTitle(messages.AddRelationship());
+		this.btnSource.setTitle(messages.AddSource());
+		this.btnTarget.setTitle(messages.AddTarget());
 		
 		this.btnEdit.setStyleName("btnEditConcept");
 		this.btnDelete.setStyleName("btnEditConcept");
 		this.btnLink.setStyleName("btnEditConcept");
+		this.btnSource.setStyleName("btnEditConcept");
+		this.btnTarget.setStyleName("btnEditConcept");
 		
 		this.add(this.btnEdit);
 		this.add(this.btnLink);
 		this.add(this.btnDelete);
+		this.add(this.btnSource);
+		this.add(this.btnTarget);
 	}
 
 	public PushButton getEditButton() {
@@ -75,16 +85,28 @@ public class ConceptEditButtons extends HorizontalPanel {
 	public PushButton getLinkButton() {
 		return btnLink;
 	}
+
+	public PushButton getSourceButton() {
+		return btnSource;
+	}
+
+	public PushButton getTargetButton() {
+		return btnTarget;
+	}
 	
 	public void setConceptLabel(ConceptLabel lbl) {
 		if(lbl instanceof RelationshipLabel) {
-			btnLink.setVisible(true);
-			btnDelete.setVisible(true);
+			btnSource.setVisible(true);
+			btnTarget.setVisible(true);
+			btnLink.setVisible(false);
+			btnDelete.setVisible(false);
 			btnEdit.setVisible(false);
 		} else {
 		btnLink.setVisible(true);
 		btnEdit.setVisible(false);
 		btnDelete.setVisible(false);
+		btnSource.setVisible(false);
+		btnTarget.setVisible(false);
 		}
 	}
 }
