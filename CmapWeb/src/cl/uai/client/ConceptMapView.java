@@ -269,21 +269,6 @@ public class ConceptMapView extends Composite {
 					}
 				}
 			});
-			
-			// focusPanel.addDoubleClickHandler(new DoubleClickHandler() {			
-			// 	public void onDoubleClick(DoubleClickEvent event) {
-			// 		// If the double click was on a concept or relationship do nothing
-			// 		if(conceptClicked)
-			// 			return;
-
-			// 		// Calculate position for the dialog and the concept
-			// 		int x = event.getRelativeX(event.getRelativeElement()) + event.getRelativeElement().getAbsoluteLeft();
-			// 		int y = event.getRelativeY(event.getRelativeElement()) + event.getRelativeElement().getAbsoluteTop();
-
-			// 		addConceptDialog(x,y);
-			// 	}
-			// });
-
 			focusPanel.addMouseMoveHandler(new MouseMoveHandler() {				
 				@Override
 				public void onMouseMove(MouseMoveEvent event) {
@@ -377,37 +362,35 @@ public class ConceptMapView extends Composite {
 					conceptClicked = true;
 					final ConceptLabel lbl = (ConceptLabel) event.getSource();
 					final Concept target = getConceptFromLabel(lbl);
-					if(isInAddRelationshipMode() && addRelationshipSourceConcept != null
-							&& !addRelationshipSourceConcept.equals(target)
+
+					Map<String, Object> params = new TreeMap<String, Object>();
+					
+				
+					if(isInAddRelationshipMode() && addRelationshipSource != null
+							&& !addRelationshipSource.equals(target) && addRelationshipTarget == null
 						) 
 					{
-						AddRelationshipDialogBox dbox = new AddRelationshipDialogBox();
-						dbox.addCloseHandler(new CloseHandler<PopupPanel>() {							
-							public void onClose(CloseEvent<PopupPanel> event) {
-								AddRelationshipDialogBox dbox = (AddRelationshipDialogBox) event.getSource();
-								if(dbox.getNewValue() != null && dbox.getNewValue().trim().length() > 0) {
-									Map<String, Object> params = new TreeMap<String, Object>();
-									params.put("sourceId", addRelationshipSourceConcept.getId());
-									params.put("targetId", target.getId());
-									params.put("linkingWord", dbox.getNewValue());
-									AddRelationshipCommand command = new AddRelationshipCommand(params);
-									executeCommand(command);
-								}
-							}
-						});
-						dbox.showRelativeTo(getConceptLabels().get(target.getId()));
-						dbox.getTxtNewValue().setFocus(true);						
+						params.put("sourceId", addRelationshipSource.getId());
+						params.put("targetId", target.getId());
+						params.put("linkingWord", addRelationshipSource.getLinkingWord());
+						AddRelationshipCommand command = new AddRelationshipCommand(params);
+
+						executeCommand2(command);			
+					}else if(isInAddRelationshipMode() && addRelationshipTarget != null
+							&& !addRelationshipTarget.equals(target)
+						) 
+					{
+						GWT.log("Berhasilll");
+						params.put("sourceId", addRelationshipTarget.getId());
+						params.put("targetId", target.getId());
+						params.put("linkingWord", addRelationshipTarget.getLinkingWord());
+						AddRelationshipCommand command = new AddRelationshipCommand(params);
+						GWT.log("Relationship ID : "+ Integer.toString(addRelationshipTarget.getId()));
+						GWT.log("Target ID : "+ Integer.toString(target.getId()));
+						executeCommand3(command);	
 					}
 				}
 			});
-			
-			// lblConcept.addDoubleClickHandler(new DoubleClickHandler() {
-			// 	public void onDoubleClick(DoubleClickEvent event) {
-			// 		conceptClicked = true;
-			// 		final ConceptLabel lbl = (ConceptLabel) event.getSource();
-			// 		showRenameConceptDialog(lbl, concept.getLabel());
-			// 	}
-			// });
 		}
 
 		if(!readOnly)
@@ -464,37 +447,6 @@ public class ConceptMapView extends Composite {
 				@Override
 				public void onClick(ClickEvent event) {
 					conceptClicked = true;
-					final ConceptLabel lbl = (ConceptLabel) event.getSource();
-					final Concept target = getConceptFromLabel(lbl);
-					if(isInAddRelationshipMode() && addRelationshipSource != null
-							&& !addRelationshipSource.equals(target)
-						) 
-					{
-						Map<String, Object> params = new TreeMap<String, Object>();
-						params.put("sourceId", addRelationshipSource.getId());
-						params.put("targetId", target.getId());
-						params.put("linkingWord", addRelationshipSource.getLinkingWord());
-						AddRelationshipCommand command = new AddRelationshipCommand(params);
-						executeCommand2(command);					
-					}
-					else if(isInAddRelationshipMode() && addRelationshipTarget != null
-							&& !addRelationshipTarget.equals(target)
-						) 
-					{
-						Map<String, Object> params = new TreeMap<String, Object>();
-						params.put("sourceId", addRelationshipTarget.getId());
-						params.put("targetId", target.getId());
-						params.put("linkingWord", addRelationshipTarget.getLinkingWord());
-						AddRelationshipCommand command = new AddRelationshipCommand(params);
-						executeCommand3(command);					
-					}
-				}
-			});
-			lblRelationship.addDoubleClickHandler(new DoubleClickHandler() {
-				public void onDoubleClick(DoubleClickEvent event) {
-					conceptClicked = true;
-					final ConceptLabel lbl = (ConceptLabel) event.getSource();
-					showRenameRelationshipDialog(lbl, relationship.getLinkingWord());
 				}
 			});
 		}
@@ -630,6 +582,8 @@ public class ConceptMapView extends Composite {
 		this.setInAddConceptMode(false);
 		this.setInAddRelationshipMode(false);
 
+		addRelationshipSource = null;
+
 		this.loader.save(this.exportXml(), new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -660,8 +614,11 @@ public class ConceptMapView extends Composite {
 		this.cmapHeader.setRedoEnabled(false);
 		this.cmapHeader.setUndoEnabled(true);
 		
+		
 		this.setInAddConceptMode(false);
 		this.setInAddRelationshipMode(false);
+
+		addRelationshipTarget = null;
 
 		this.loader.save(this.exportXml(), new AsyncCallback<String>() {
 			@Override
@@ -834,7 +791,7 @@ public class ConceptMapView extends Composite {
 	}
 
 
-	public Relationship insertRelationshipAndLabel2(int id, Relationship source, Concept target, String linkingWord, Drawing drawingType, int posx, int posy) {
+	public Relationship insertRelationshipAndLabel2(int id, Relationship source, Concept target, String linkingWord, Drawing drawingType, int posx, int posy) {	
 		Relationship rel = cmap.insertRelationship2(id, source, target, linkingWord, drawingType, posx, posy);
 		if(rel != null) {
 			addRelationshipLabel(rel);
@@ -921,11 +878,21 @@ public class ConceptMapView extends Composite {
 		boundaryPanel.setWidgetPosition(lbl, posx, posy);
 		for(Relationship rel : cmap.outgoingRelationships(cmap.getConcept(id)))
 		{
-			this.getRelationshipLabels().get(rel.getId()).drawAllLines();
+			if(rel==null){
+				return;
+			}else{
+			this.getRelationshipLabels().get(rel.getId()).drawSourceLines();
+			this.getRelationshipLabels().get(rel.getId()).drawTargetLines();
+			}
 		}
 		for(Relationship rel : cmap.incomingRelationships(cmap.getConcept(id)))
 		{
-			this.getRelationshipLabels().get(rel.getId()).drawAllLines();			
+			if(rel==null){
+				return;
+			}else{
+			this.getRelationshipLabels().get(rel.getId()).drawSourceLines();	
+			this.getRelationshipLabels().get(rel.getId()).drawTargetLines();
+			}			
 		}
 	}
 
@@ -943,7 +910,9 @@ public class ConceptMapView extends Composite {
 		Relationship r = cmap.getRelationship(id);
 		// adjustSisterRelationships(r);
 
-		lbl.drawAllLines();
+		// lbl.drawAllLines();
+		lbl.drawSourceLines();
+		lbl.drawTargetLines();
 
 
 	}

@@ -141,15 +141,8 @@ public class RelationshipLabel extends ConceptLabel {
 	}
 
 
-
-
-	/**
-	 * Re-calculates the coordinates for the lines from the source concept
-	 * to the linking word and then to the target concept
-	 */
-	public void drawAllLines() {
-		// Coordinates for label 1 corner and size (w,h)
-		if(this.relationship.getSource()== null || this.relationship.getTarget()==null){
+	public void drawSourceLines(){
+		if(this.relationship.getSource()== null){
 			return;
 		}else{
 		int x1 = this.relationship.getSource().getPosx();
@@ -163,6 +156,31 @@ public class RelationshipLabel extends ConceptLabel {
 		int w2 = super.getOffsetWidth();
 		int h2 = super.getOffsetHeight();
 
+		// Calculating centers for all labels
+		int cx1 = x1 + w1 / 2;
+		int cy1 = y1 + h1 / 2;
+		int cx2 = x2 + w2 / 2;
+		int cy2 = y2 + h2 / 2;
+
+		// Draw line from source concept to relationship
+		srcLine.setX1(cx1);
+		srcLine.setY1(cy1);
+		srcLine.setX2(cx2);
+		srcLine.setY2(cy2);
+		}
+
+	}
+	public void drawTargetLines(){
+		if(this.relationship.getTarget()== null){
+			return;
+		}else{
+		
+		// Coordinates for label 2 corner and size (w,h)
+		int x2 = this.relationship.getPosx();
+		int y2 = this.relationship.getPosy();
+		int w2 = super.getOffsetWidth();
+		int h2 = super.getOffsetHeight();
+
 		// Coordinates for label 2 corner and size (w,h)
 		int x3 = this.relationship.getTarget().getPosx();
 		int y3 = this.relationship.getTarget().getPosy();
@@ -170,8 +188,6 @@ public class RelationshipLabel extends ConceptLabel {
 		int h3 = this.cmapview.getConceptLabels().get(this.relationship.getTarget().getId()).getOffsetHeight();
 
 		// Calculating centers for all labels
-		int cx1 = x1 + w1 / 2;
-		int cy1 = y1 + h1 / 2;
 		int cx2 = x2 + w2 / 2;
 		int cy2 = y2 + h2 / 2;
 		int cx3 = x3 + w3 / 2;
@@ -209,15 +225,7 @@ public class RelationshipLabel extends ConceptLabel {
 		double angle2 = lineAngle + Math.PI - arrowAngle;
 		int botx = (int) (arrowx + Math.cos(angle2) * h);
 		int boty = (int) (arrowy + Math.sin(angle2) * h);
-
-		
-
-		// Draw line from source concept to relationship
-		srcLine.setX1(cx1);
-		srcLine.setY1(cy1);
-		srcLine.setX2(cx2);
-		srcLine.setY2(cy2);
-		
+	
 		// Draw line from relationship to target concept
 		tgtLine.setX1(cx2);
 		tgtLine.setY1(cy2);
@@ -235,6 +243,7 @@ public class RelationshipLabel extends ConceptLabel {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		drawAllLines();
+		drawSourceLines();
+		drawTargetLines();
 	}
 }

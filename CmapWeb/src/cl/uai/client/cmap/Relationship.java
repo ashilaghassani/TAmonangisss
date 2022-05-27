@@ -149,14 +149,26 @@ public class Relationship {
 	 * @return the XML string
 	 */
 	public String exportXML() {
-		String output = 
+		if(this.getSource() == null || this.getTarget()==null){
+			String output = 
+			"<relationship id=\"" + this.id + 
+			"\" source=\"" + 0 + 
+			"\" target=\"" + 0 + 
+			"\" linkingWord=\"" + this.linkingWord + 
+			"\" posx=\"" + this.posx + 
+			"\" posy=\"" + this.posy + "\"/>";
+			return output;
+		}else{
+			String output = 
 			"<relationship id=\"" + this.id + 
 			"\" source=\"" + this.getSource().getId() + 
 			"\" target=\"" + this.getTarget().getId() + 
 			"\" linkingWord=\"" + this.linkingWord + 
 			"\" posx=\"" + this.posx + 
 			"\" posy=\"" + this.posy + "\"/>";
-		return output;
+			return output;
+		}
+		
 	}
 	
 	@Override

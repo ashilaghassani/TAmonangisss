@@ -29,6 +29,8 @@ import cl.uai.client.cmap.Concept;
 import cl.uai.client.cmap.Relationship;
 import cl.uai.client.cmap.Relationship.Drawing;
 
+import java.util.logging.Logger;
+
 /**
  * @author Jorge Villalon
  *
@@ -77,11 +79,12 @@ public class AddRelationshipCommand extends AbstractConceptMapCommand {
 	@Override
 	public void execute2(ConceptMapView cview) {
 		this.cmapview = cview;
-		// Concept c = this.cmapview.getCmap().getConcept(sourceId);
 		Concept c2 = this.cmapview.getCmap().getConcept(targetId);
 		Relationship rs = this.cmapview.getCmap().getRelationship(sourceId);
 		Relationship r = null;
 		this.id = rs.getId();
+		this.posx = rs.getPosx();
+		this.posy = rs.getPosy();
 		r = this.cmapview.insertRelationshipAndLabel2(id, rs, c2, linkingWord, Drawing.LINE, posx, posy);
 	}
 
@@ -94,6 +97,8 @@ public class AddRelationshipCommand extends AbstractConceptMapCommand {
 		Relationship rs = this.cmapview.getCmap().getRelationship(sourceId);
 		Relationship r = null;
 		this.id = rs.getId();
+		this.posx = rs.getPosx();
+		this.posy = rs.getPosy();
 		r = this.cmapview.insertRelationshipAndLabel3(id, rs, c2, linkingWord, Drawing.LINE, posx, posy);
 	}
 

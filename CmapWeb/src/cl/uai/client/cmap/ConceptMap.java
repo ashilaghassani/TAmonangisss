@@ -248,8 +248,12 @@ public class ConceptMap {
 	public List<Relationship> incomingRelationships(Concept concept) {
 		List<Relationship> output = new ArrayList<Relationship>();
 		for(Relationship rel : this.relationships.values()) {
-			// if(rel.getTarget().equals(concept))
+			if(rel.getTarget()==null){
+				output.add(null);
+			}
+			else if(rel.getTarget().equals(concept)){
 				output.add(rel);
+			}
 		}
 		return output;
 	}
@@ -375,8 +379,13 @@ public class ConceptMap {
 	public List<Relationship> outgoingRelationships(Concept concept) {
 		List<Relationship> output = new ArrayList<Relationship>();
 		for(Relationship rel : this.relationships.values()) {
-			// if(rel.getSource().equals(concept))
+			if(rel.getSource()==null){
+				output.add(null);
+			}
+			else if(rel.getSource().equals(concept)){
 				output.add(rel);
+			}
+
 		}
 		return output;
 	}
@@ -454,7 +463,6 @@ public class ConceptMap {
 				// 	posx = source.getPosx() + (int) (((double)target.getPosx() - (double)source.getPosx())/2);
 				// 	posy = source.getPosy() + (int) (((double)target.getPosy() - (double)source.getPosy())/2);
 				// }
-
 				Concept source = this.concepts.get(srcId);
 				Concept target = this.concepts.get(tgtId);
 				this.insertRelationship(id, source, target, linkingWord, Drawing.LINE, posx, posy);			    	

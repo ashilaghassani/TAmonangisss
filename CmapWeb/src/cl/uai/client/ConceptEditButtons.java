@@ -102,7 +102,7 @@ public class ConceptEditButtons extends HorizontalPanel {
 			btnDelete.setVisible(false);
 			btnEdit.setVisible(false);
 		} else {
-		btnLink.setVisible(true);
+		btnLink.setVisible(false);
 		btnEdit.setVisible(false);
 		btnDelete.setVisible(false);
 		btnSource.setVisible(false);
